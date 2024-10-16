@@ -2,14 +2,19 @@ package com.bezkoder.spring.jpa.postgresql.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.security.Permissions;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "repository_info")
 public class RepositoryInfo {
 
+    @Id
     private Long id;
 
     @JsonProperty("nodea_id")
@@ -20,7 +25,9 @@ public class RepositoryInfo {
     @JsonProperty("full_name")
     private String fullName;
 
-    private OwnerInfo owner;
+    @ManyToOne // Assuming many repositories cane have on owner
+    @JoinColumn(name = "owner_id")
+    public OwnerInfo owner;
 
     private Boolean privateRepo; // 'private' is a reserved keyword in Java, so we rename it
 
@@ -158,7 +165,7 @@ public class RepositoryInfo {
 
     private String homepage;
 
-    private Object language; // Could be a specific type if you know it
+    private String language; // Could be a specific type if you know it
 
     @JsonProperty("forks_count")
     private Integer forksCount;
@@ -180,7 +187,17 @@ public class RepositoryInfo {
     @JsonProperty("is_template")
     private Boolean isTemplate;
 
-    private List<String> topics;
+//    @Column(name = "topics")
+//    private String topicsString; // Comma-separated values
+//
+//    // Getters and setters for topicsString
+//    public List<String> getTopics() {
+//        return Arrays.asList(topicsString.split(","));
+//    }
+//
+//    public void setTopics(List<String> topics) {
+//        this.topicsString = String.join(",", topics);
+//    }
 
     @JsonProperty("has_issues")
     private Boolean hasIssues;
@@ -215,7 +232,9 @@ public class RepositoryInfo {
     @JsonProperty("updated_at")
     private String updatedAt; // Consider using LocalDateTime
 
-    private Permissions permissions;
+    @OneToOne
+    @JoinColumn(name = "permission_id")
+    public PermissionsInfo permissions;
 
 
 }
