@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.bezkoder.spring.jpa.postgresql.model.OwnerInfo;
 import com.bezkoder.spring.jpa.postgresql.model.RepositoryInfo;
 import com.bezkoder.spring.jpa.postgresql.model.TeamInfo;
+import com.bezkoder.spring.jpa.postgresql.repository.RepositoryInfoRepository;
 import com.bezkoder.spring.jpa.postgresql.repository.TestRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -45,6 +46,8 @@ public class TutorialController {
    @Autowired
 	TestRepository testRepository;
 
+   @Autowired
+   RepositoryInfoRepository repositoryInformation;
 
    @GetMapping ("/teamsInfo")
    @Operation(summary = "fetch all teams info in an org", description = "Returns a list of all teamInfo like team name, repos etc .")
@@ -54,7 +57,7 @@ public class TutorialController {
 	   Request request = new Request.Builder()
 			   .url("https://api.github.com/orgs/test-org-newRelic/teams")
 			   .header("Accept", "application/vnd.github.+json")
-			   .header("Authorization", "Bearer  " + "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")
+			   .header("Authorization", "Bearer  " + "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")
 			   .header("User-Agent", "OkHttp")
 			   .header("X-GitHub-Api-Version", "2022-11-28")
 			   .build();
@@ -106,7 +109,7 @@ public class TutorialController {
 		Request request = new Request.Builder()
 				.url("https://api.github.com/orgs/test-org-newRelic/teams/new-relic-workflow-2/repos")
 				.header("Accept", "application/vnd.github.+json")
-				.header("Authorization", "Bearer  " + "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")
+				.header("Authorization", "Bearer  " + "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")
 				.header("User-Agent", "OkHttp")
 				.header("X-GitHub-Api-Version", "2022-11-28")
 				.build();
@@ -132,7 +135,7 @@ public class TutorialController {
 					// Create and set OwnerInfo
 					OwnerInfo owner = new OwnerInfo();
 					owner.setLogin(team.get("owner").get("login").asText());
-					owner.setId(team.get("owner").get("id").asLong());
+					owner.setOwner_id(team.get("owner").get("id").asLong());
 					repositoryInfo.setOwner(owner);
 
 					repositoryInfo.setPrivateRepo(team.get("private").asBoolean());
@@ -179,7 +182,7 @@ public class TutorialController {
 					repositoryInfo.setSize(team.hasNonNull("size") ? team.get("size").asInt() : null);
 					repositoryInfo.setArchived(team.hasNonNull("archived") ? team.get("archived").asBoolean() : null);
 					repositoryInfo.setDisabled(team.hasNonNull("disabled") ? team.get("disabled").asBoolean() : null);
-					repositoryInfo.setLanguage((team.hasNonNull("language")) ? team.get("language") : null); // Assuming language can be an object or null
+					repositoryInfo.setLanguage((team.hasNonNull("language")) ? String.valueOf(team.get("language")) : null); // Assuming language can be an object or null
 
 					// Add the populated Repository Info to the list
 					repositoryInfoList.add(repositoryInfo);
