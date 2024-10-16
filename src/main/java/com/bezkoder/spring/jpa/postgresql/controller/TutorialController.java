@@ -57,7 +57,7 @@ public class TutorialController {
 	   Request request = new Request.Builder()
 			   .url("https://api.github.com/orgs/test-org-newRelic/teams")
 			   .header("Accept", "application/vnd.github.+json")
-			   .header("Authorization", "Bearer  " + "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")
+			   .header("Authorization", "Bearer  " + "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")
 			   .header("User-Agent", "OkHttp")
 			   .header("X-GitHub-Api-Version", "2022-11-28")
 			   .build();
@@ -109,7 +109,7 @@ public class TutorialController {
 		Request request = new Request.Builder()
 				.url("https://api.github.com/orgs/test-org-newRelic/teams/new-relic-workflow-2/repos")
 				.header("Accept", "application/vnd.github.+json")
-				.header("Authorization", "Bearer  " + "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")
+				.header("Authorization", "Bearer  " + "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")
 				.header("User-Agent", "OkHttp")
 				.header("X-GitHub-Api-Version", "2022-11-28")
 				.build();
